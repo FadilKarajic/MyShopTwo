@@ -6,19 +6,20 @@ using System.Web.Mvc;
 using MyShopTwo.Core.Models;
 using MyShopTwo.DataAccess.InMemory;
 using MyShopTwo.Core.ViewModels;
+using MyShopTwo.Core.Contracts;
 
 namespace MyShopTwo.Controllers
 {
     public class ProductManagerController : Controller
     {
 
-        InMemoryRepository<Product> context;
-        InMemoryRepository<ProductCategory> productCategories;
+        IRepository<Product> context;
+        IRepository<ProductCategory> productCategories;
 
-        public ProductManagerController()
+        public ProductManagerController(IRepository<Product> productContext, IRepository<ProductCategory> productCategoryContext)
         {
-            context = new InMemoryRepository<Product>();
-            productCategories = new InMemoryRepository<ProductCategory>();
+            context = productContext;
+            productCategories = productCategoryContext;
         }
 
 

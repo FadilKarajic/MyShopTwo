@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Caching;
 using MyShopTwo.Core.Models;
+using MyShopTwo.Core.Contracts;
 
 namespace MyShopTwo.DataAccess.InMemory
 {
-    public class InMemoryRepository<T> where  T : BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
         List<T> items;
@@ -30,7 +31,7 @@ namespace MyShopTwo.DataAccess.InMemory
             cache[className] = items;
         }
 
-        public void Insert (T t)
+        public void Insert(T t)
         {
             items.Add(t);
         }
@@ -39,7 +40,7 @@ namespace MyShopTwo.DataAccess.InMemory
         {
             T tToUpdate = items.Find(i => i.Id == t.Id);
 
-            if(tToUpdate != null)
+            if (tToUpdate != null)
             {
                 tToUpdate = t;
             }
@@ -52,7 +53,7 @@ namespace MyShopTwo.DataAccess.InMemory
         public T Find(string Id)
         {
             T t = items.Find(i => i.Id == Id);
-            if(t != null)
+            if (t != null)
             {
                 return t;
             }
@@ -67,7 +68,7 @@ namespace MyShopTwo.DataAccess.InMemory
             return items.AsQueryable();
         }
 
-        public void Delete (string Id)
+        public void Delete(string Id)
         {
             T tToDelete = items.Find(i => i.Id == Id);
 
